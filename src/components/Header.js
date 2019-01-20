@@ -5,7 +5,7 @@ import crane from '../images/crane3.gif';
 
 
 
-function Header(){
+const Header = () => {
     return (
         <header>
             <img className='headercls' src={memebckg} alt="meme background img"/>

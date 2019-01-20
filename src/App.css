@@ -50,16 +50,15 @@
 
 
 .topTxt {
-    position:absolute;
+    /*position:absolute;
     top:15%;
     left:0;
-    right:0;
-    color:#fff;
-    font-family: impact, sans-serif;
-    font-size: 1.5em;
-    text-transform: uppercase;
-    color: white;
-    letter-spacing: 1px;
+    right:0;*/
+    color:#fff!important;
+    font-family: impact, sans-serif!important;
+    font-size: 1.5emv!important;
+    text-transform: uppercase!important;
+    letter-spacing: 1px!important;
     text-shadow:
         2px 2px 0 #000,
         -2px -2px 0 #000,
@@ -72,17 +71,19 @@
         2px 2px 5px #000;
 }
 
+
+
+
 .bottomTxt {
-  position:absolute;
+  /*position:absolute;
   bottom:15%;
   left:0;
-  right:0;
-  color:#fff;
-  font-family: impact, sans-serif;
-  font-size: 2em;
-  text-transform: uppercase;
-  color: white;
-  letter-spacing: 1px;
+  right:0;*/
+  color:#fff!important;
+  font-family: impact, sans-serif!important;
+  font-size: 2em!important;
+  text-transform: uppercase!important;
+  letter-spacing: 1px!important;
   text-shadow:
       2px 2px 0 #000,
       -2px -2px 0 #000,
@@ -93,6 +94,7 @@
       0 -2px 0 #000,
       -2px 0 0 #000,
       2px 2px 5px #000;
+      background-color:red!important;
 }
 
 
@@ -108,11 +110,18 @@
     border-bottom-left-radius: 150px;
     border-bottom-right-radius: 150px;
     border: 0px solid hsl(0, 0%, 100%);
+    font-weight:900;
+
 }
 
 .genbtncls:hover {
   color:white;
   background-color:#bdbdbd;
+}
+
+.genbtncls:active {
+  background-color:#979797;
+  font-weight:500;
 }
 
 
@@ -131,15 +140,41 @@ button {
 
 }
 button:hover {
-  box-shadow: 0px 0px 0px 1px #ffae19 inset;
-  box-shadow: 0px 0px 0px 2px #ffae19 inset;
+ /* box-shadow: 0px 0px 0px 1px #ffae19 inset;
+  box-shadow: 0px 0px 0px 2px #ffae19 inset;*/
 
 
 }
 button:focus {
   outline:none!important;
   /*box-shadow: 0px 0px 0px 1px #ffae19 inset;*/
-  box-shadow: 0px 0px 0px 6px #ffae19 inset;
+ /* box-shadow: 0px 0px 0px 6px #ffae19 inset;*/
+}
 
 
+
+.btndownload {
+  background-color: #ffae19!important;
+  font-weight:900!important;
+  border-radius:0px!important;
+  color:black!important;
+  box-shadow:none;
+}
+
+.btndownload:hover {
+ background-color:#cc8400!important; 
+ color:#fff!important;
+ box-shadow:none;
+}
+
+.btndownload:active {
+  background-color:#a36900!important;
+}
+
+.btndownload:focus {
+  outline:none!important;
+}
+
+.arrow1 {
+  font-size:40px;
 }
