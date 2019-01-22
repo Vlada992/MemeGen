@@ -13,11 +13,14 @@ class Body extends Component {
         this.handleChange =   this.handleChange.bind(this);
         this.handleSubmit =   this.handleSubmit.bind(this);
         this.getBase64Image = this.getBase64Image.bind(this);
+        this.chooseFont = this.chooseFont.bind(this);
+
+
         this.state = {
             topText:'Top Text',
             bottomText:' Bottom Text',
             randomImg:'https://i.imgflip.com/1otk96.jpg',
-            allMemes: [],
+            allMemes: null,
             memeName:'',
             hideOrshow: 'showhideimg',
             currentImagebase64: null,
@@ -26,7 +29,8 @@ class Body extends Component {
             bottomX: "50%",
             bottomY: "90%",
             selectedFile:'',
-            allFonts:''
+            allFonts: null,
+            fontFam: ''
         }
     };
 
@@ -36,30 +40,31 @@ class Body extends Component {
         .then(dataHere =>  dataHere.json()
         )
         .then( response => {
-            const {memes} = response.data;
-            this.setState({ allMemes: memes })
-    
+            const {memes} = response.data;    
         fetch('https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyDiLaPS4sIZ07PDUySo4FTZiLigDcfwRgk')
         .then(data =>{
             return data.json();
         })
         .then(resp =>{
-            console.log(resp);
-            console.log('ARRAY:', resp.items[0].family)
-            this.setState({ allFonts: resp.items })
+            this.setState({ 
+                allFonts: resp.items,
+                allMemes: memes 
+             })
         })
-
-        })
+        });
     };
 
 
-    handleChange(event){
-        const {name, value} = event.target; //which is object, so take name, value  from DOM object, which is input here
+
+
+    handleChange(event){  
+        const {name, value} = event.target;
         this.setState({ [name]:value })
     };
 
 
     handleSubmit(event){
+    if(this.state.allMemes){        //if its' true do this, only if TRUE
         this.setState({selectedFile: ''})
         event.preventDefault()
         const randNum = Math.floor(Math.random() * Math.floor(this.state.allMemes.length));
@@ -73,21 +78,16 @@ class Body extends Component {
             memeWidth: eachMemeWidth,
             memeHeight: eachMemeHeight
         })
-        setTimeout(() => {
-            this.setState({hideOrshow: ''})
-        }, 100)
-
-        var baseImage = new Image();
+        setTimeout(() => { this.setState({hideOrshow: ''}) }, 100)
+        const baseImage = new Image();
         baseImage.setAttribute('crossOrigin', 'anonymous');
         baseImage.src =  this.state.selectedFile ?  this.state.selectedFile : eachMeme;
-        baseImage.onload = () => {
+        baseImage.onload = () => { 
         const base64 = this.getBase64Image(baseImage);
         this.setState({ currentImagebase64: base64 })
         }
+    }
     };
-
-
-    //font method
 
 
 
@@ -115,7 +115,6 @@ class Body extends Component {
 
     
 
-
     getBase64Image(img){
         var canvas = document.createElement("canvas");
         canvas.width = img.width;
@@ -132,8 +131,17 @@ class Body extends Component {
     };
 
 
+    chooseFont(event){
+        console.log('ima li:', event.target.value)
+        this.setState({fontFam: event.target.value })
+    }
+
+
+
     render(){
-        console.log('u body TO JE OVO:', this.state.allFonts)
+        if(!this.state.allFonts){
+            return <div/>  //this will render just this empty div container and prevent from rendering values that didn't returned from API
+        }
         const allProps = [
             this.state,
             {
@@ -141,19 +149,22 @@ class Body extends Component {
             handleSubmit: this.handleSubmit,
             convertSvgToImage:  this.convertSvgToImage,
             getBase64Image:  this.getBase64Image,
-            fileSelectHandler: this.fileSelectHandler
+            fileSelectHandler: this.fileSelectHandler,
+            chooseFont: this.chooseFont
             }
         ];
 
         return (
             <div>
-            <BodyRender  {...allProps}
+            <BodyRender
+            {...allProps}
             ref={(el) => { this.child = el; }}
             />
             </div>
         )
     };
 }
+
 
 
 export default Body;

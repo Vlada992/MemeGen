@@ -3,45 +3,73 @@ import '../App.css';
 
 
 class BodyRender extends React.Component {
-
-
     
-
     render(){
-        const fontShort = this.props[0].allFonts
-        console.log(this.props[0])
-        console.log('u bodi renderr:', this.props[0])
-        //console.log(this.props[0].allFonts[0].family)
+     console.log('prolazi prvi:', this.props[0].allFonts) 
+     const selctFile = this.props[0].selectedFile;
+     const state = this.props[0], funcs = this.props[1]    
+     let optSel = this.props[0].allFonts.map((val, ind) => {
+         return <option value={val.family} key={ind}>{val.family}</option>
+     })
+
         return (
             <div> 
             <div>
-                <form onSubmit={this.props[1].handleSubmit} className='bodyCont'>
-                <input style={{border:'1px solid gray'}} type='file' onChange ={this.props[1].fileSelectHandler}/>
+                <form onSubmit={funcs.handleSubmit} className='bodyCont'>
+                <input 
+                style={{border:'1px solid gray'}} 
+                type='file' 
+                onChange ={funcs.fileSelectHandler}
+                
+                />
                 <input
                  style={{fontStyle:'italic', fontFamily:'Kristen ITC'}}
                  type='text' 
                  name='topText' 
                  placeholder='Top Text' 
-                 value={this.props[0].topText}
-                 onChange={this.props[1].handleChange}/>
+                 value={state.topText}
+                 onChange={funcs.handleChange}/>
                 <input
                  style={{fontStyle:'italic', fontFamily:'Kristen ITC'}}
                  type='text' 
                  name='bottomText' 
                  placeholder='Bottom Text' 
-                 value={this.props[0].bottomText} 
-                 onChange={this.props[1].handleChange}/>
+                 value={state.bottomText} 
+                 onChange={funcs.handleChange}/>
                 
-                <select>
-                <option value="impact">Impact</option>
-                <option value="impact"> {/* {this.props[0].allFonts[0].family} */} </option>
+                <select 
+                style={{fontFamily: state.fontFam, height:55}} 
+                onClick={funcs.chooseFont}>
+                 
 
-               
+                <option value="impact">Impact</option>
+                <option  value="Algerian">Algerian</option>
+                <option  value="Verdana"> Verdana</option>
+                <option  value="Arial"> Arial</option>
+                <option  value="Bauhaus 93"> Bauhaus 93</option>
+                <option  value="Bernard MT"> Bernard MT</option>
+                <option  value="Calibri"> Calibri</option>
+                <option  value="Times New Roman">Times New Roman</option>
+                <option  value="Courier"> Courier</option>
+                <option  value="ABeeZee"> ABeeZee  </option>
+                <option  value="Aclonica"> Aclonica  </option> 
+
                 </select>
 
 
-                <button  onClick={() => this.props[1].convertSvgToImage()} className="btn btn-primary btndownload">Download Meme! </button>
-                <button className='genbtncls'> <span className='arrow1'>&#65086;</span> Generate <span className='arrow1'>&#65086;</span>
+                <select 
+                onClick={funcs.chooseFont}>
+                {optSel}
+                </select>
+
+                <button  
+                onClick={() => funcs.convertSvgToImage()} 
+                className="btn btn-primary btndownload">
+                Download Meme <span style={{fontSize:36}}> &#8599;</span>
+                </button>
+                <button 
+                className='genbtncls'> 
+                <span className='arrow1'>&#65086;</span> Generate <span className='arrow1'>&#65086;</span>
                 </button>
                 </form>
             </div>
@@ -49,38 +77,38 @@ class BodyRender extends React.Component {
             
             <div  className='memeCont container'>
             <svg
-             height={this.props[0].selectedFile ? 550 : this.props[0].memeHeight}
-             width={this.props[0].selectedFile ? 550 : this.props[0].memeWidth}
-              id="svg_ref"
-              ref={el => { this.svgRef = el }}
-              xmlns="http://www.w3.org/2000/svg"
-              xmlnsXlink="http://www.w3.org/1999/xlink">
+             height={selctFile  ? 550 : state.memeHeight}
+             width={selctFile  ? 550 : state.memeWidth}
+             id="svg_ref"
+             ref={el => { this.svgRef = el }}
+             xmlns="http://www.w3.org/2000/svg"
+             xmlnsXlink="http://www.w3.org/1999/xlink">
               <image
                 ref={el => { this.imageRef = el }}
-                xlinkHref={this.props[0].currentImagebase64}
-                height={this.props[0].selectedFile ? 550 : this.props[0].memeHeight}
-                width={this.props[0].selectedFile ? 550 : this.props[0].memeWidth}
+                xlinkHref={state.currentImagebase64}
+                height={selctFile  ? 550 : state.memeHeight}
+                width={selctFile  ? 550 : state.memeWidth}
               />
               <text
-              style={{ fill:'white'}}
+              style={{ fill:'white',  fontFamily: state.fontFam}}
               className='topTxt'
               dominantBaseline="middle"
               textAnchor="middle"
-              x={this.props[0].topX}
-              y={this.props[0].selectedFile ? "35%" :  this.props[0].topY}
+              x={state.topX}
+              y={selctFile  ? "35%" : state.topY}
               >
-              {this.props[0].topText.toUpperCase()}
+              {state.topText.toUpperCase()}
               </text >
 
               <text
-              style={{ fill:'white'}}
+              style={{ fill:'white', fontFamily: state.fontFam}}
               className='bottomTxt'
               dominantBaseline="middle"
               textAnchor="middle"
-              x={this.props[0].bottomX}
-              y={this.props[0].selectedFile ? "65%" :  this.props[0].bottomY}
+              x={state.bottomX}
+              y={selctFile ? "65%" : state.bottomY}
               > 
-              {this.props[0].bottomText.toUpperCase()}
+              {state.bottomText.toUpperCase()}
               </text>
               </svg>
             </div>
