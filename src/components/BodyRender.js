@@ -5,14 +5,14 @@ import '../App.css';
 class BodyRender extends React.Component {
     
     render(){
-     console.log('prolazi prvi:', this.props[0].allFonts) 
+     console.log('All fonts:', this.props[0].allFonts) 
      const selctFile = this.props[0].selectedFile;
      const state = this.props[0], funcs = this.props[1]    
-     let optSel = this.props[0].allFonts.map((val, ind) => {
+     /*let optSel = this.props[0].allFonts.map((val, ind) => { 
          return <option value={val.family} key={ind}>{val.family}</option>
-     })
+     })*/
 
-        return (
+        return ( 
             <div> 
             <div>
                 <form onSubmit={funcs.handleSubmit} className='bodyCont'>
@@ -40,8 +40,6 @@ class BodyRender extends React.Component {
                 <select 
                 style={{fontFamily: state.fontFam, height:55}} 
                 onClick={funcs.chooseFont}>
-                 
-
                 <option value="impact">Impact</option>
                 <option  value="Algerian">Algerian</option>
                 <option  value="Verdana"> Verdana</option>
@@ -53,14 +51,16 @@ class BodyRender extends React.Component {
                 <option  value="Courier"> Courier</option>
                 <option  value="ABeeZee"> ABeeZee  </option>
                 <option  value="Aclonica"> Aclonica  </option> 
-
                 </select>
 
 
-                <select 
+
+               {/* <select 
                 onClick={funcs.chooseFont}>
                 {optSel}
                 </select>
+               */}
+
 
                 <button  
                 onClick={() => funcs.convertSvgToImage()} 
