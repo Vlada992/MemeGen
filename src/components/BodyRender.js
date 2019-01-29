@@ -5,12 +5,12 @@ import '../App.css';
 class BodyRender extends React.Component {
     
     render(){
-     console.log('All fonts:', this.props[0].allFonts) 
      const selctFile = this.props[0].selectedFile;
      const state = this.props[0], funcs = this.props[1]    
-     /*let optSel = this.props[0].allFonts.map((val, ind) => { 
+     let optSel = this.props[0].allFonts.map((val, ind) => { 
          return <option value={val.family} key={ind}>{val.family}</option>
-     })*/
+     
+     })
 
         return ( 
             <div> 
@@ -20,7 +20,6 @@ class BodyRender extends React.Component {
                 style={{border:'1px solid gray'}} 
                 type='file' 
                 onChange ={funcs.fileSelectHandler}
-                
                 />
                 <input
                  style={{fontStyle:'italic', fontFamily:'Kristen ITC'}}
@@ -37,33 +36,52 @@ class BodyRender extends React.Component {
                  value={state.bottomText} 
                  onChange={funcs.handleChange}/>
                 
-                <select 
-                style={{fontFamily: state.fontFam, height:55}} 
-                onClick={funcs.chooseFont}>
-                <option value="impact">Impact</option>
-                <option  value="Algerian">Algerian</option>
-                <option  value="Verdana"> Verdana</option>
-                <option  value="Arial"> Arial</option>
-                <option  value="Bauhaus 93"> Bauhaus 93</option>
-                <option  value="Bernard MT"> Bernard MT</option>
-                <option  value="Calibri"> Calibri</option>
-                <option  value="Times New Roman">Times New Roman</option>
-                <option  value="Courier"> Courier</option>
-                <option  value="ABeeZee"> ABeeZee  </option>
-                <option  value="Aclonica"> Aclonica  </option> 
-                </select>
-
-
-
-               {/* <select 
+                {<select 
+                style={{fontFamily: state.fontFam, height:55}}
                 onClick={funcs.chooseFont}>
                 {optSel}
                 </select>
-               */}
+                }
+
+                <div style={{display:'flex', justifyContent:'flex-end', border:"1px solid gray"}}>
+                 <label style={{paddingRight:'5px'}}>Opacity:</label>
+                 <select
+                 name='opacity'
+                 onClick={funcs.chooseOpac}>
+                 >
+                 <option value='0.9'>0.9</option>
+                 <option value='0.7'>0.7</option>
+                 <option value='0.5'>0.5</option>
+                 <option value='0.3'>0.3</option>
+                 <option value='0.1'>0.1</option>
+                 </select>
+
+
+                
+                 <select
+                 name='filter'
+                 onClick={funcs.chooseOpac}>
+                 >
+                 <option value='blur'>blur</option>
+                 <option value='brightness'>brightness</option>
+                 <option value='constrast'>constrast</option>
+                 <option value='dropShadow'>dropShadow</option>
+                 <option value='grayscale'>grayscale</option>
+                 </select>
+                 <input 
+                 type='text'
+                 name='middleText' 
+                 placeholder='Middle Text'
+                 style={{width:'100px', fontWeight:900, fontSize:'10px'}}
+                 value={state.middleText} 
+                 onChange={funcs.handleChange}/>
+                 </div>
+
+               
 
 
                 <button  
-                onClick={() => funcs.convertSvgToImage()} 
+                onClick={(ev) => funcs.convertSvgToImage(ev) } 
                 className="btn btn-primary btndownload">
                 Download Meme <span style={{fontSize:36}}> &#8599;</span>
                 </button>
@@ -71,6 +89,9 @@ class BodyRender extends React.Component {
                 className='genbtncls'> 
                 <span className='arrow1'>&#65086;</span> Generate <span className='arrow1'>&#65086;</span>
                 </button>
+
+                
+
                 </form>
             </div>
 
@@ -84,10 +105,12 @@ class BodyRender extends React.Component {
              xmlns="http://www.w3.org/2000/svg"
              xmlnsXlink="http://www.w3.org/1999/xlink">
               <image
-                ref={el => { this.imageRef = el }}
-                xlinkHref={state.currentImagebase64}
-                height={selctFile  ? 550 : state.memeHeight}
-                width={selctFile  ? 550 : state.memeWidth}
+              className={state.filter}
+              style={{opacity: state.opacity}}
+              ref={el => { this.imageRef = el }}
+              xlinkHref={state.currentImagebase64}
+              height={selctFile  ? 550 : state.memeHeight}
+              width={selctFile  ? 550 : state.memeWidth}
               />
               <text
               style={{ fill:'white',  fontFamily: state.fontFam}}
@@ -99,7 +122,16 @@ class BodyRender extends React.Component {
               >
               {state.topText.toUpperCase()}
               </text >
-
+              <text
+              style={{ fill:'white', fontFamily: state.fontFam}}
+              className='bottomTxt'
+              dominantBaseline="middle"
+              textAnchor="middle"
+              x={state.bottomX}
+              y={selctFile ? "35%" : "50%"}
+              > 
+              {state.middleText !== 'Middle Text' ? state.middleText.toLowerCase() : null}
+              </text>
               <text
               style={{ fill:'white', fontFamily: state.fontFam}}
               className='bottomTxt'

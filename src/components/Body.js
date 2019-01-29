@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import '../App.css';
 import BodyRender from './BodyRender';
+import WebFont from 'webfontloader';
+
 
 
 
@@ -14,11 +16,14 @@ class Body extends Component {
         this.handleSubmit =   this.handleSubmit.bind(this);
         this.getBase64Image = this.getBase64Image.bind(this);
         this.chooseFont = this.chooseFont.bind(this);
+        this.chooseOpac = this.chooseOpac.bind(this);
+
 
 
         this.state = {
             topText:'Top Text',
             bottomText:' Bottom Text',
+            middleText: 'Middle Text',
             randomImg:'https://i.imgflip.com/1otk96.jpg',
             allMemes: null,
             memeName:'',
@@ -30,7 +35,10 @@ class Body extends Component {
             bottomY: "90%",
             selectedFile:'',
             allFonts: null,
-            fontFam: ''
+            fontFam: '',
+            rotImg: 'rotate90',
+            opacity:'',
+            filter:''
         }
     };
 
@@ -40,13 +48,13 @@ class Body extends Component {
         .then(dataHere =>  dataHere.json()
         )
         .then( response => {
-            const {memes} = response.data;    
+            const {memes} = response.data;  //response.data je objekat i onda odatle uzmi vrednosti memes objekta
         fetch('https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyDiLaPS4sIZ07PDUySo4FTZiLigDcfwRgk')
         .then(data =>{
             return data.json();
         })
-        .then(resp =>{
-            this.setState({ 
+        .then(resp => {
+            this.setState({
                 allFonts: resp.items,
                 allMemes: memes 
              })
@@ -59,7 +67,7 @@ class Body extends Component {
 
     handleChange(event){  
         const {name, value} = event.target;
-        this.setState({ [name]:value })
+        this.setState({ [name]:value }) 
     };
 
 
@@ -92,7 +100,8 @@ class Body extends Component {
 
 
 
-    convertSvgToImage = () => {
+    convertSvgToImage = (event) => {
+        event.preventDefault();
         const svg =  this.child.svgRef
         let svgData = new XMLSerializer().serializeToString(svg);
         const canvas = document.createElement("canvas");
@@ -111,7 +120,7 @@ class Body extends Component {
           document.body.appendChild(a);
           a.click();
         };
-    }
+    };
 
     
 
@@ -123,19 +132,28 @@ class Body extends Component {
         ctx.drawImage(img, 0, 0);
         var dataURL = canvas.toDataURL("image/png");
         return dataURL;
-    }
+    };
 
 
     fileSelectHandler = event => {
-        this.setState({selectedFile: URL.createObjectURL(event.target.files[0]) })
+        const {files} = event.target
+        console.log('files nula', files[0])
+        this.setState({selectedFile: URL.createObjectURL(files[0])})
     };
 
 
     chooseFont(event){
-        console.log('ima li:', event.target.value)
-        this.setState({fontFam: event.target.value })
-    }
+        const {value} = event.target
+        this.setState({fontFam: value })
+        WebFont.load({ google: { families: [`${value}:300,400,700`, 'sans-serif'] } });
+    };
 
+
+    chooseOpac(event){
+    const {name, value} = event.target
+    console.log('vrednost:', value)
+    this.setState({[name]: value })
+    };
 
 
     render(){
@@ -150,7 +168,8 @@ class Body extends Component {
             convertSvgToImage:  this.convertSvgToImage,
             getBase64Image:  this.getBase64Image,
             fileSelectHandler: this.fileSelectHandler,
-            chooseFont: this.chooseFont
+            chooseFont: this.chooseFont,
+            chooseOpac: this.chooseOpac
             }
         ];
 
