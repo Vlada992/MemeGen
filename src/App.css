@@ -103,7 +103,6 @@
     border-bottom-right-radius: 150px;
     border: 0px solid hsl(0, 0%, 100%);
     font-weight:900;
-
 }
 
 .genbtncls:hover {
@@ -150,14 +149,10 @@ button:focus {
   outline:none!important;
 }
 
-input[type=file]:hover {
+input[type=file]:hover { /*[type='file'] is hiting specificaly ONLY input with types file*/
    color:#000!important;
-   /*font-weight:600;*/
    background-color:#ffae19;
-
 }
-
-
 
 
 .btndownload {
@@ -189,21 +184,41 @@ input[type=file]:hover {
 
 
 
-
-
-.blur {
-  filter: blur(5px)!important;
-}
-.brightness {
-  filter:brightness(200%)!important;
-}
-.contrast {
-  filter:contrast(200%)!important;
-}
-.dropShadow {
-  filter:drop-shadow(8px 8px 10px gray)!important;
+@media screen and (max-width: 1240px){
+  #optionContDiv {
+    display:flex;
+    flex-direction:column!important
+  }
 }
 
-.grayscale {
-  filter:grayscale(100%)!important;
+
+
+@media screen and (max-width: 990px){
+  .genbtncls {font-size:15px;}
+  .arrow1 {font-size:20px;}
+}
+
+
+@media screen and (max-width: 760px){
+  .genbtncls {font-size:12px;}
+  .btndownload {font-size:12px!important;font-weight:600}
+  .btndownload  span {font-size:16px!important;}
+}
+
+
+@media screen and (max-width: 580px){
+  .genbtncls {font-size:11px;}
+  .btndownload {font-size:9px!important;font-weight:600}
+  .btndownload  span {font-size:11px!important;}
+}
+
+
+@media screen and (max-width: 580px){
+  .btndownload  span {font-size:11px!important; display:block}
+}
+
+
+@media screen and (max-width: 450px){
+  .btndownload {font-size:9px!important;font-weight:600;}
+
 }

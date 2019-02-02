@@ -8,9 +8,11 @@ class BodyRender extends React.Component {
      const selctFile = this.props[0].selectedFile;
      const state = this.props[0], funcs = this.props[1]    
      let optSel = this.props[0].allFonts.map((val, ind) => { 
-         return <option value={val.family} key={ind}>{val.family}</option>
-     
+     return <option value={val.family} key={ind}>{val.family}</option>
      })
+
+     let styleFont = {fontWeight: state.fontWeight}
+
 
         return ( 
             <div> 
@@ -43,30 +45,28 @@ class BodyRender extends React.Component {
                 </select>
                 }
 
-                <div style={{display:'flex', justifyContent:'flex-end', border:"1px solid gray"}}>
+                <div id='optionContDiv' style={{display:'flex', justifyContent:'flex-end', border:"1px solid gray"}}>
                  <label style={{paddingRight:'5px'}}>Opacity:</label>
                  <select
                  name='opacity'
                  onClick={funcs.chooseOpac}>
                  >
-                 <option value='0.9'>0.9</option>
-                 <option value='0.7'>0.7</option>
+                 <option  value='1'>None</option>
+                 <option  value='0.9'>0.9</option>
+                 <option  value='0.7'>0.7</option>
                  <option value='0.5'>0.5</option>
                  <option value='0.3'>0.3</option>
                  <option value='0.1'>0.1</option>
                  </select>
 
-
-                
                  <select
                  name='filter'
                  onClick={funcs.chooseOpac}>
                  >
-                 <option value='blur'>blur</option>
-                 <option value='brightness'>brightness</option>
-                 <option value='constrast'>constrast</option>
-                 <option value='dropShadow'>dropShadow</option>
-                 <option value='grayscale'>grayscale</option>
+                 <option value='none'>None</option>
+                 <option  value='blur5'>blur</option>
+                 <option value='hueRotate'>Color matrix</option>
+                 <option value='saturate'>Saturate</option>
                  </select>
                  <input 
                  type='text'
@@ -78,8 +78,6 @@ class BodyRender extends React.Component {
                  </div>
 
                
-
-
                 <button  
                 onClick={(ev) => funcs.convertSvgToImage(ev) } 
                 className="btn btn-primary btndownload">
@@ -89,9 +87,6 @@ class BodyRender extends React.Component {
                 className='genbtncls'> 
                 <span className='arrow1'>&#65086;</span> Generate <span className='arrow1'>&#65086;</span>
                 </button>
-
-                
-
                 </form>
             </div>
 
@@ -104,14 +99,22 @@ class BodyRender extends React.Component {
              ref={el => { this.svgRef = el }}
              xmlns="http://www.w3.org/2000/svg"
              xmlnsXlink="http://www.w3.org/1999/xlink">
+
+              <filter id='myFilter'>
+              <feGaussianBlur stdDeviation={state.blur5.slice(4,5)} />
+              <feColorMatrix type={state.hueRotate} values='180' />
+              <feColorMatrix type={state.saturate} values="0" result="desat"/>
+              </filter>
+
               <image
-              className={state.filter}
               style={{opacity: state.opacity}}
               ref={el => { this.imageRef = el }}
               xlinkHref={state.currentImagebase64}
               height={selctFile  ? 550 : state.memeHeight}
               width={selctFile  ? 550 : state.memeWidth}
+              filter="url(#myFilter)"
               />
+
               <text
               style={{ fill:'white',  fontFamily: state.fontFam}}
               className='topTxt'

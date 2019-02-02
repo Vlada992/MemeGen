@@ -38,7 +38,12 @@ class Body extends Component {
             fontFam: '',
             rotImg: 'rotate90',
             opacity:'',
-            filter:''
+            filter:'',
+            blur5:'',
+            hueRotate:'',
+            luminanceToAlpha:'',
+            saturate:'',
+            fontWeight:""
         }
     };
 
@@ -111,7 +116,7 @@ class Body extends Component {
         canvas.height = svgSize.height;
         const img = document.createElement("img");
         img.setAttribute("src", "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(svgData))));
-        img.onload = function() {
+        img.onload = function(){
           canvas.getContext("2d").drawImage(img, 0, 0);
           const canvasdata = canvas.toDataURL("image/png");
           const a = document.createElement("a");
@@ -137,7 +142,6 @@ class Body extends Component {
 
     fileSelectHandler = event => {
         const {files} = event.target
-        console.log('files nula', files[0])
         this.setState({selectedFile: URL.createObjectURL(files[0])})
     };
 
@@ -151,10 +155,18 @@ class Body extends Component {
 
     chooseOpac(event){
     const {name, value} = event.target
-    console.log('vrednost:', value)
-    this.setState({[name]: value })
-    };
+    console.log('ime:', name, 'vrednost', value)
 
+    if(value === 'none'){
+    this.setState({
+        blur5:'',
+        hueRotate:'',
+        luminanceToAlpha:'',
+        saturate:''
+    })
+    }
+     name === 'opacity' ? this.setState({[name]: value, fontWeight:900 })  : this.setState({[value]: value })
+    };
 
     render(){
         if(!this.state.allFonts){
