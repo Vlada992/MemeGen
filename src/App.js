@@ -1,18 +1,16 @@
 import React from 'react';
 import './App.css';
-import Header from './components/Header';
-import Body from "./components/Body";
+import MemeHeader from './component/MemeHeader';
+import MemeBody from "./container/MemeBody";
 
 
 function App(props) {    //functional component, as we don't need constructor and states here. So, stateless component.
-console.log('gornji props glavni:', props)
     return (
       <div>
-        <Header/>
-        <Body fonT = {props.fn} />
+        <MemeHeader/>
+        <MemeBody fonT = {props.fn} />
       </div>
     );
 }
-//App is functional component
 
 export default App;

@@ -1,23 +1,19 @@
 import React, {Component} from 'react';
 import '../App.css';
-import BodyRender from './BodyRender';
+import MemeForm from '../component/MemeForm';
 import WebFont from 'webfontloader';
+import MemeSvg from '../component/MemeSvg';
 
 
 
-
-
-
-
-class Body extends Component {
+class MemeBody extends Component {
     constructor(props){
         super(props);
         this.handleChange =   this.handleChange.bind(this);
         this.handleSubmit =   this.handleSubmit.bind(this);
         this.getBase64Image = this.getBase64Image.bind(this);
         this.chooseFont = this.chooseFont.bind(this);
-        this.chooseOpac = this.chooseOpac.bind(this);
-
+        this.filterAndOpacity = this.filterAndOpacity.bind(this);
 
 
         this.state = {
@@ -53,21 +49,16 @@ class Body extends Component {
         .then(dataHere =>  dataHere.json()
         )
         .then( response => {
-            const {memes} = response.data;  //response.data je objekat i onda odatle uzmi vrednosti memes objekta
+            const {memes} = response.data;
         fetch('https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyDiLaPS4sIZ07PDUySo4FTZiLigDcfwRgk')
         .then(data =>{
             return data.json();
         })
         .then(resp => {
-            this.setState({
-                allFonts: resp.items,
-                allMemes: memes 
-             })
+            this.setState({allFonts: resp.items, allMemes: memes})
         })
         });
     };
-
-
 
 
     handleChange(event){  
@@ -77,7 +68,7 @@ class Body extends Component {
 
 
     handleSubmit(event){
-    if(this.state.allMemes){        //if its' true do this, only if TRUE
+    if(this.state.allMemes){ 
         this.setState({selectedFile: ''})
         event.preventDefault()
         const randNum = Math.floor(Math.random() * Math.floor(this.state.allMemes.length));
@@ -103,8 +94,7 @@ class Body extends Component {
     };
 
 
-
-
+    
     convertSvgToImage = (event) => {
         event.preventDefault();
         const svg =  this.child.svgRef
@@ -153,10 +143,8 @@ class Body extends Component {
     };
 
 
-    chooseOpac(event){
+    filterAndOpacity(event){
     const {name, value} = event.target
-    console.log('ime:', name, 'vrednost', value)
-
     if(value === 'none'){
     this.setState({
         blur5:'',
@@ -181,15 +169,16 @@ class Body extends Component {
             getBase64Image:  this.getBase64Image,
             fileSelectHandler: this.fileSelectHandler,
             chooseFont: this.chooseFont,
-            chooseOpac: this.chooseOpac
+            filterAndOpacity: this.filterAndOpacity
             }
         ];
 
         return (
             <div>
-            <BodyRender
-            {...allProps}
-            ref={(el) => { this.child = el; }}
+            <MemeForm {...allProps}/>
+            <MemeSvg
+              {...allProps}
+              ref={(el) => { this.child = el; }}
             />
             </div>
         )
@@ -198,7 +187,7 @@ class Body extends Component {
 
 
 
-export default Body;
+export default MemeBody;
 
 
 

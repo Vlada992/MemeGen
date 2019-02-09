@@ -2,20 +2,17 @@ import React from 'react';
 import '../App.css';
 
 
-class BodyRender extends React.Component {
+class MemeForm extends React.Component {
     
     render(){
-     const selctFile = this.props[0].selectedFile;
      const state = this.props[0], funcs = this.props[1]    
      let optSel = this.props[0].allFonts.map((val, ind) => { 
      return <option value={val.family} key={ind}>{val.family}</option>
      })
 
-     let styleFont = {fontWeight: state.fontWeight}
-
-
         return ( 
             <div> 
+
             <div>
                 <form onSubmit={funcs.handleSubmit} className='bodyCont'>
                 <input 
@@ -49,7 +46,7 @@ class BodyRender extends React.Component {
                  <label style={{paddingRight:'5px'}}>Opacity:</label>
                  <select
                  name='opacity'
-                 onClick={funcs.chooseOpac}>
+                 onClick={funcs.filterAndOpacity}>
                  >
                  <option  value='1'>None</option>
                  <option  value='0.9'>0.9</option>
@@ -61,7 +58,7 @@ class BodyRender extends React.Component {
 
                  <select
                  name='filter'
-                 onClick={funcs.chooseOpac}>
+                 onClick={funcs.filterAndOpacity}>
                  >
                  <option value='none'>None</option>
                  <option  value='blur5'>blur</option>
@@ -91,69 +88,18 @@ class BodyRender extends React.Component {
             </div>
 
             
-            <div  className='memeCont container'>
-            <svg
-             height={selctFile  ? 550 : state.memeHeight}
-             width={selctFile  ? 550 : state.memeWidth}
-             id="svg_ref"
-             ref={el => { this.svgRef = el }}
-             xmlns="http://www.w3.org/2000/svg"
-             xmlnsXlink="http://www.w3.org/1999/xlink">
+            
 
-              <filter id='myFilter'>
-              <feGaussianBlur stdDeviation={state.blur5.slice(4,5)} />
-              <feColorMatrix type={state.hueRotate} values='180' />
-              <feColorMatrix type={state.saturate} values="0" result="desat"/>
-              </filter>
 
-              <image
-              style={{opacity: state.opacity}}
-              ref={el => { this.imageRef = el }}
-              xlinkHref={state.currentImagebase64}
-              height={selctFile  ? 550 : state.memeHeight}
-              width={selctFile  ? 550 : state.memeWidth}
-              filter="url(#myFilter)"
-              />
-
-              <text
-              style={{ fill:'white',  fontFamily: state.fontFam}}
-              className='topTxt'
-              dominantBaseline="middle"
-              textAnchor="middle"
-              x={state.topX}
-              y={selctFile  ? "35%" : state.topY}
-              >
-              {state.topText.toUpperCase()}
-              </text >
-              <text
-              style={{ fill:'white', fontFamily: state.fontFam}}
-              className='bottomTxt'
-              dominantBaseline="middle"
-              textAnchor="middle"
-              x={state.bottomX}
-              y={selctFile ? "35%" : "50%"}
-              > 
-              {state.middleText !== 'Middle Text' ? state.middleText.toLowerCase() : null}
-              </text>
-              <text
-              style={{ fill:'white', fontFamily: state.fontFam}}
-              className='bottomTxt'
-              dominantBaseline="middle"
-              textAnchor="middle"
-              x={state.bottomX}
-              y={selctFile ? "65%" : state.bottomY}
-              > 
-              {state.bottomText.toUpperCase()}
-              </text>
-              </svg>
-            </div>
             </div>
         )
     };
 }
 
 
-export default BodyRender;
+export default MemeForm;
+
+
 
 
 

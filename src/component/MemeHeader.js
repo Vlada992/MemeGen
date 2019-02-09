@@ -5,7 +5,7 @@ import crane from '../images/crane3.gif';
 
 
 
-const Header = () => {
+const MemeHeader = () => {
     return (
         <header>
             <img className='headercls' src={memebckg} alt="meme background img"/>
@@ -19,7 +19,7 @@ const Header = () => {
 }
 
 
-export default Header;
+export default MemeHeader;
 
 //this is Header function component, exporting here, imported and executed inside App.js
 
